@@ -54,19 +54,19 @@
 
     <div>
       <label>Força:</label>
-      <input type="number" id="forca" value="2" min="0">
+      <input type="number" id="forca" min="0">
     </div>
     <div>
       <label>Agilidade:</label>
-      <input type="number" id="agilidade" value="1" min="0">
+      <input type="number" id="agilidade" min="0">
     </div>
     <div>
       <label>Astúcia:</label>
-      <input type="number" id="astucia" value="3" min="0">
+      <input type="number" id="astucia" min="0">
     </div>
     <div>
       <label>Vontade:</label>
-      <input type="number" id="vontade" value="5" min="0">
+      <input type="number" id="vontade" min="0">
     </div>
 
     <div>
@@ -90,7 +90,38 @@
   </div>
 
   <script>
+    // Funções para salvar e carregar atributos nos cookies
+    function setCookie(name, value, days = 365) {
+      const d = new Date();
+      d.setTime(d.getTime() + days*24*60*60*1000);
+      document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/`;
+    }
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    }
+
+    function carregarAtributos() {
+      const atributos = ['forca','agilidade','astucia','vontade'];
+      atributos.forEach(attr => {
+        const val = getCookie(attr);
+        if (val !== null) document.getElementById(attr).value = val;
+      });
+    }
+
+    function salvarAtributos() {
+      const atributos = ['forca','agilidade','astucia','vontade'];
+      atributos.forEach(attr => {
+        const val = document.getElementById(attr).value;
+        setCookie(attr, val);
+      });
+    }
+
     function rolar(atributo) {
+      salvarAtributos();
       const qtd = parseInt(document.getElementById(atributo).value);
       if (isNaN(qtd) || qtd <= 0) {
         document.getElementById("resultado").innerText = "Coloque um valor válido.";
@@ -116,6 +147,9 @@
       document.getElementById("resultadoDado").innerHTML =
         `<strong>Rolagem de d${lados}:</strong> ${d}`;
     }
+
+    // Carregar atributos ao abrir a página
+    carregarAtributos();
   </script>
 </body>
 </html>
