@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rolador de Dados RPG</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      width: 340px;
+      text-align: center;
+    }
+    input {
+      width: 60px;
+      padding: 5px;
+      margin: 5px;
+      text-align: center;
+    }
+    button {
+      margin: 10px 5px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      background: #0077cc;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+    .result {
+      margin-top: 15px;
+      font-size: 1.1em;
+    }
+    hr {
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Rolador de Dados 🎲</h2>
+
+    <div>
+      <label>Força:</label>
+      <input type="number" id="forca" value="2" min="0">
+    </div>
+    <div>
+      <label>Agilidade:</label>
+      <input type="number" id="agilidade" value="1" min="0">
+    </div>
+    <div>
+      <label>Astúcia:</label>
+      <input type="number" id="astucia" value="3" min="0">
+    </div>
+    <div>
+      <label>Vontade:</label>
+      <input type="number" id="vontade" value="5" min="0">
+    </div>
+
+    <div>
+      <button onclick="rolar('forca')">Rolar Força</button>
+      <button onclick="rolar('agilidade')">Rolar Agilidade</button>
+      <button onclick="rolar('astucia')">Rolar Astúcia</button>
+      <button onclick="rolar('vontade')">Rolar Vontade</button>
+    </div>
+
+    <div class="result" id="resultado"></div>
+
+    <hr>
+    <h3>Rolagem de Dados Avulsos</h3>
+    <div>
+      <button onclick="rolarDado(6)">Rolar d6</button>
+      <button onclick="rolarDado(8)">Rolar d8</button>
+      <button onclick="rolarDado(20)">Rolar d20</button>
+    </div>
+
+    <div class="result" id="resultadoDado"></div>
+  </div>
+
+  <script>
+    function rolar(atributo) {
+      const qtd = parseInt(document.getElementById(atributo).value);
+      if (isNaN(qtd) || qtd <= 0) {
+        document.getElementById("resultado").innerText = "Coloque um valor válido.";
+        return;
+      }
+
+      let dados = [];
+      let sucessos = 0;
+      for (let i = 0; i < qtd; i++) {
+        let d = Math.floor(Math.random() * 6) + 1;
+        dados.push(d);
+        if (d >= 4) sucessos++;
+      }
+
+      document.getElementById("resultado").innerHTML =
+        `<strong>Rolagem de ${atributo}:</strong><br>` +
+        `Dados: [${dados.join(", ")}]<br>` +
+        `Sucessos: <strong>${sucessos}</strong>`;
+    }
+
+    function rolarDado(lados) {
+      let d = Math.floor(Math.random() * lados) + 1;
+      document.getElementById("resultadoDado").innerHTML =
+        `<strong>Rolagem de d${lados}:</strong> ${d}`;
+    }
+  </script>
+</body>
+</html>
