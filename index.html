@@ -46,6 +46,11 @@
     hr {
       margin: 20px 0;
     }
+    .dice-animation {
+      width: 50px;
+      display: block;
+      margin: 10px auto;
+    }
   </style>
 </head>
 <body>
@@ -77,6 +82,7 @@
     </div>
 
     <div class="result" id="resultado"></div>
+    <img src="dice.gif" id="diceAnimationAttr" class="dice-animation" style="display:none">
 
     <hr>
     <h3>Rolagem de Dados Avulsos</h3>
@@ -87,10 +93,10 @@
     </div>
 
     <div class="result" id="resultadoDado"></div>
+    <img src="dice.gif" id="diceAnimationFree" class="dice-animation" style="display:none">
   </div>
 
   <script>
-    // Funções para salvar e carregar atributos nos cookies
     function setCookie(name, value, days = 365) {
       const d = new Date();
       d.setTime(d.getTime() + days*24*60*60*1000);
@@ -105,16 +111,14 @@
     }
 
     function carregarAtributos() {
-      const atributos = ['forca','agilidade','astucia','vontade'];
-      atributos.forEach(attr => {
+      ['forca','agilidade','astucia','vontade'].forEach(attr => {
         const val = getCookie(attr);
         if (val !== null) document.getElementById(attr).value = val;
       });
     }
 
     function salvarAtributos() {
-      const atributos = ['forca','agilidade','astucia','vontade'];
-      atributos.forEach(attr => {
+      ['forca','agilidade','astucia','vontade'].forEach(attr => {
         const val = document.getElementById(attr).value;
         setCookie(attr, val);
       });
@@ -128,27 +132,40 @@
         return;
       }
 
-      let dados = [];
-      let sucessos = 0;
-      for (let i = 0; i < qtd; i++) {
-        let d = Math.floor(Math.random() * 6) + 1;
-        dados.push(d);
-        if (d >= 4) sucessos++;
-      }
+      const anim = document.getElementById('diceAnimationAttr');
+      anim.style.display = 'block';
+      document.getElementById('resultado').innerHTML = '';
 
-      document.getElementById("resultado").innerHTML =
-        `<strong>Rolagem de ${atributo}:</strong><br>` +
-        `Dados: [${dados.join(", ")}]<br>` +
-        `Sucessos: <strong>${sucessos}</strong>`;
+      setTimeout(() => {
+        anim.style.display = 'none';
+
+        let dados = [];
+        let sucessos = 0;
+        for (let i = 0; i < qtd; i++) {
+          let d = Math.floor(Math.random() * 6) + 1;
+          dados.push(d);
+          if (d >= 4) sucessos++;
+        }
+
+        document.getElementById("resultado").innerHTML =
+          `<strong>Rolagem de ${atributo}:</strong><br>` +
+          `Dados: [${dados.join(", ")}]<br>` +
+          `Sucessos: <strong>${sucessos}</strong>`;
+      }, 1000);
     }
 
     function rolarDado(lados) {
-      let d = Math.floor(Math.random() * lados) + 1;
-      document.getElementById("resultadoDado").innerHTML =
-        `<strong>Rolagem de d${lados}:</strong> ${d}`;
+      const anim = document.getElementById('diceAnimationFree');
+      anim.style.display = 'block';
+      document.getElementById('resultadoDado').innerHTML = '';
+
+      setTimeout(() => {
+        anim.style.display = 'none';
+        let d = Math.floor(Math.random() * lados) + 1;
+        document.getElementById("resultadoDado").innerHTML = `<strong>Rolagem de d${lados}:</strong> ${d}`;
+      }, 1000);
     }
 
-    // Carregar atributos ao abrir a página
     carregarAtributos();
   </script>
 </body>
