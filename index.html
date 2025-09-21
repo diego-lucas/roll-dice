@@ -74,7 +74,6 @@
       height: 80px;
       display: none;
       margin: 10px auto;
-      background: transparent;
     }
     .logo {
       width: 180px;
@@ -113,7 +112,7 @@
 
     <div class="result" id="resultado"></div>
     <video id="diceAnimationAttr" class="dice-animation" muted>
-      <source src="dice.webp" type="video/webp">
+      <source src="dice.webm" type="video/webm">
     </video>
 
     <hr>
@@ -195,7 +194,6 @@
       anim.style.display = 'block';
       res.style.display = 'none';
       anim.currentTime = 0;
-      anim.playbackRate = 2.0; // acelera a animação 2x
       anim.play();
 
       anim.onended = () => {
