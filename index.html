@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #50509d, #3a3a8d);
+      background: linear-gradient(135deg, #6a68c0, #3a3a8d);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -16,7 +16,7 @@
       color: #fff;
     }
     .container {
-      background: #615fb3;
+      background: #7a78d1;
       padding: 25px 20px;
       border-radius: 15px;
       box-shadow: 0 6px 15px rgba(0,0,0,0.3);
@@ -35,7 +35,7 @@
       text-align: center;
       border-radius: 6px;
       border: 1px solid #403f82;
-      background-color: #7a78c4;
+      background-color: #9a97d9;
       color: #fff;
     }
     input:focus {
@@ -48,7 +48,7 @@
       padding: 10px 15px;
       border: none;
       border-radius: 10px;
-      background: #3e3d8a;
+      background: #5c5aba;
       color: #fff;
       font-weight: bold;
       cursor: pointer;
@@ -63,6 +63,7 @@
       background-color: rgba(255,255,255,0.1);
       padding: 8px;
       border-radius: 8px;
+      display: none;
     }
     hr {
       margin: 20px 0;
@@ -70,19 +71,19 @@
     }
     .dice-animation {
       width: 50px;
-      display: block;
+      display: none;
       margin: 10px auto;
     }
     .logo {
-      width: 80px;
-      margin-bottom: 10px;
+      width: 180px;
+      margin-bottom: 15px;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <img src="logo.png" class="logo" alt="Logo">
-    <h2>Rolador de Dados 🎲</h2>
+    <h2>Rolador de Dados RPG</h2>
 
     <div>
       <label>Força:</label>
@@ -109,7 +110,7 @@
     </div>
 
     <div class="result" id="resultado"></div>
-    <img src="dice.gif" id="diceAnimationAttr" class="dice-animation" style="display:none">
+    <img src="dice.gif" id="diceAnimationAttr" class="dice-animation">
 
     <hr>
     <h3>Rolagem de Dados Avulsos</h3>
@@ -120,7 +121,7 @@
     </div>
 
     <div class="result" id="resultadoDado"></div>
-    <img src="dice.gif" id="diceAnimationFree" class="dice-animation" style="display:none">
+    <img src="dice.gif" id="diceAnimationFree" class="dice-animation">
   </div>
 
   <script>
@@ -155,13 +156,16 @@
       salvarAtributos();
       const qtd = parseInt(document.getElementById(atributo).value);
       if (isNaN(qtd) || qtd <= 0) {
-        document.getElementById("resultado").innerText = "Coloque um valor válido.";
+        const res = document.getElementById("resultado");
+        res.innerText = "Coloque um valor válido.";
+        res.style.display = 'block';
         return;
       }
 
       const anim = document.getElementById('diceAnimationAttr');
+      const res = document.getElementById('resultado');
       anim.style.display = 'block';
-      document.getElementById('resultado').innerHTML = '';
+      res.style.display = 'none';
 
       setTimeout(() => {
         anim.style.display = 'none';
@@ -174,22 +178,22 @@
           if (d >= 4) sucessos++;
         }
 
-        document.getElementById("resultado").innerHTML =
-          `<strong>Rolagem de ${atributo}:</strong><br>` +
-          `Dados: [${dados.join(", ")}]<br>` +
-          `Sucessos: <strong>${sucessos}</strong>`;
+        res.innerHTML = `<strong>Rolagem de ${atributo}:</strong><br>Dados: [${dados.join(", ")}]<br>Sucessos: <strong>${sucessos}</strong>`;
+        res.style.display = 'block';
       }, 1000);
     }
 
     function rolarDado(lados) {
       const anim = document.getElementById('diceAnimationFree');
+      const res = document.getElementById('resultadoDado');
       anim.style.display = 'block';
-      document.getElementById('resultadoDado').innerHTML = '';
+      res.style.display = 'none';
 
       setTimeout(() => {
         anim.style.display = 'none';
         let d = Math.floor(Math.random() * lados) + 1;
-        document.getElementById("resultadoDado").innerHTML = `<strong>Rolagem de d${lados}:</strong> ${d}`;
+        res.innerHTML = `<strong>Rolagem de d${lados}:</strong> ${d}`;
+        res.style.display = 'block';
       }, 1000);
     }
 
