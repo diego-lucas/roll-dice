@@ -110,7 +110,7 @@
     </div>
 
     <div class="result" id="resultado"></div>
-    <video id="diceAnimationAttr" class="dice-animation" autoplay muted loop>
+    <video id="diceAnimationAttr" class="dice-animation" muted>
       <source src="dice.webm" type="video/webm">
     </video>
 
@@ -123,7 +123,7 @@
     </div>
 
     <div class="result" id="resultadoDado"></div>
-    <video id="diceAnimationFree" class="dice-animation" autoplay muted loop>
+    <video id="diceAnimationFree" class="dice-animation" muted>
       <source src="dice.webm" type="video/webm">
     </video>
   </div>
@@ -170,10 +170,11 @@
       const res = document.getElementById('resultado');
       anim.style.display = 'block';
       res.style.display = 'none';
+      anim.currentTime = 0;
+      anim.play();
 
-      setTimeout(() => {
+      anim.onended = () => {
         anim.style.display = 'none';
-
         let dados = [];
         let sucessos = 0;
         for (let i = 0; i < qtd; i++) {
@@ -181,10 +182,9 @@
           dados.push(d);
           if (d >= 4) sucessos++;
         }
-
         res.innerHTML = `<strong>Rolagem de ${atributo}:</strong><br>Dados: [${dados.join(", ")}]<br>Sucessos: <strong>${sucessos}</strong>`;
         res.style.display = 'block';
-      }, 1000);
+      };
     }
 
     function rolarDado(lados) {
@@ -192,13 +192,15 @@
       const res = document.getElementById('resultadoDado');
       anim.style.display = 'block';
       res.style.display = 'none';
+      anim.currentTime = 0;
+      anim.play();
 
-      setTimeout(() => {
+      anim.onended = () => {
         anim.style.display = 'none';
         let d = Math.floor(Math.random() * lados) + 1;
         res.innerHTML = `<strong>Rolagem de d${lados}:</strong> ${d}`;
         res.style.display = 'block';
-      }, 1000);
+      };
     }
 
     carregarAtributos();
