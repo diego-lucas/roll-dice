@@ -70,9 +70,11 @@
       border: 1px solid rgba(255,255,255,0.3);
     }
     .dice-animation {
-      width: 50px;
+      width: 80px;
+      height: 80px;
       display: none;
       margin: 10px auto;
+      background: transparent;
     }
     .logo {
       width: 180px;
@@ -171,6 +173,7 @@
       anim.style.display = 'block';
       res.style.display = 'none';
       anim.currentTime = 0;
+      anim.playbackRate = 2.0; // acelera a animação 2x
       anim.play();
 
       anim.onended = () => {
@@ -193,6 +196,7 @@
       anim.style.display = 'block';
       res.style.display = 'none';
       anim.currentTime = 0;
+      anim.playbackRate = 2.0; // acelera a animação 2x
       anim.play();
 
       anim.onended = () => {
